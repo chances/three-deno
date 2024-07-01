@@ -1,0 +1,30 @@
+{
+  "name": "@3d/three",
+  "version": "0.166.0",
+  "description": "JavaScript 3D library",
+  "imports": {
+    "three": "./src/Three.js"
+  },
+  "exports": {
+    ".": "./src/Three.js",
+    "./addons": "./examples/jsm/Addons.js",
+    "./webgpu": "./src/Three.WebGPU.js"
+  },
+  "publish": {
+    "include": [
+      "examples/jsm/**/*.js",
+      "src",
+      "test",
+      "utils",
+      "deno.json",
+      "icon.png",
+      "LICENSE",
+      "README.md"
+    ]
+  },
+  "tasks": {
+    "test": "deno task test-unit && deno task test-unit-addons",
+    "test-unit": "npx qunit -r failonlyreporter -f !-webonly test/unit/three.source.unit.js",
+    "test-unit-addons": "npx qunit -r failonlyreporter -f !-webonly test/unit/three.addons.unit.js"
+  }
+}
