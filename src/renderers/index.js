@@ -6,12 +6,10 @@ export { default as BindGroup } from './common/BindGroup.js';
 export { default as Binding } from './common/Binding.js';
 export { default as Bindings } from './common/Bindings.js';
 export { default as Buffer } from './common/Buffer.js';
-// FIXME: export * as BufferUtils from "./common/BufferUtils.js"
 export { default as ChainMap } from './common/ChainMap.js';
 export { default as ClippingContext } from './common/ClippingContext.js';
 export { default as Color4 } from './common/Color4.js';
 export { default as ComputePipeline } from './common/ComputePipeline.js';
-// FIXME: export * as Constants from "./common/Constants.js"
 export { default as CubeRenderTarget } from './common/CubeRenderTarget.js';
 export { default as DataMap } from './common/DataMap.js';
 export { default as Geometries } from './common/Geometries.js';
@@ -31,16 +29,20 @@ export { default as RenderObject } from './common/RenderObject.js';
 export { default as RenderObjects } from './common/RenderObjects.js';
 export { default as RenderPipeline } from './common/RenderPipeline.js';
 export { default as Renderer } from './common/Renderer.js';
-// FIXME: export * as SampledTexture from "./common/SampledTexture.js"
 export { default as Sampler } from './common/Sampler.js';
 export { default as StorageBuffer } from './common/StorageBuffer.js';
 export { default as StorageBufferAttribute } from './common/StorageBufferAttribute.js';
 export { default as StorageInstancedBufferAttribute } from './common/StorageInstancedBufferAttribute.js';
 export { default as StorageTexture } from './common/StorageTexture.js';
 export { default as Textures } from './common/Textures.js';
-// FIXME: export * as Uniform from "./common/Uniform.js"
 export { default as UniformBuffer } from './common/UniformBuffer.js';
 export { default as UniformsGroup } from './common/UniformsGroup.js';
+
+import * as BufferUtils from './common/BufferUtils.js';
+import * as Constants from './common/Constants.js';
+import * as SampledTexture from './common/SampledTexture.js';
+import * as Uniform from './common/Uniform.js';
+export { BufferUtils, Constants, SampledTexture, Uniform };
 
 export { WebGL3DRenderTarget } from './WebGL3DRenderTarget.js';
 export { WebGLArrayRenderTarget } from './WebGLArrayRenderTarget.js';
