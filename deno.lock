@@ -1,0 +1,49 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@std/assert@^0.226.0": "jsr:@std/assert@0.226.0",
+      "npm:@types/node": "npm:@types/node@18.16.19"
+    },
+    "jsr": {
+      "@std/assert@0.226.0": {
+        "integrity": "0dfb5f7c7723c18cec118e080fec76ce15b4c31154b15ad2bd74822603ef75b3"
+      }
+    },
+    "npm": {
+      "@types/node@18.16.19": {
+        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
+        "dependencies": {}
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@rollup/plugin-node-resolve@^15.0.1",
+        "npm:@rollup/plugin-terser@^0.4.0",
+        "npm:chalk@^5.2.0",
+        "npm:concurrently@^8.0.1",
+        "npm:dpdm@^3.14.0",
+        "npm:eslint-config-mdcs@^5.0.0",
+        "npm:eslint-plugin-compat@^5.0.0",
+        "npm:eslint-plugin-html@^8.0.0",
+        "npm:eslint-plugin-import@^2.27.5",
+        "npm:eslint@^8.37.0",
+        "npm:failonlyreporter@^1.0.0",
+        "npm:jimp@^0.22.7",
+        "npm:jsr@^0.12.4",
+        "npm:magic-string@^0.30.0",
+        "npm:pixelmatch@^6.0.0",
+        "npm:puppeteer@^22.0.0",
+        "npm:qunit@^2.19.4",
+        "npm:rollup-plugin-filesize@^10.0.0",
+        "npm:rollup-plugin-visualizer@^5.9.0",
+        "npm:rollup@^4.6.0",
+        "npm:servez@^2.0.0",
+        "npm:typescript@^5.5.2"
+      ]
+    }
+  }
+}

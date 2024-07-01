@@ -1,6 +1,6 @@
 {
   "name": "@3d/three",
-  "version": "0.166.0",
+  "version": "0.167.0-dev.deno.0",
   "description": "JavaScript 3D library",
   "imports": {
     "three": "./src/Three.js"
@@ -8,6 +8,24 @@
   "exports": {
     ".": "./src/Three.js",
     "./addons": "./examples/jsm/Addons.js",
+    "./animation": "./src/animation/index.js",
+    "./animation/tracks": "./src/animation/tracks/index.js",
+    "./audio": "./src/audio/index.js",
+    "./cameras": "./src/cameras/index.js",
+    "./core": "./src/core/index.js",
+    "./extras": "./src/extras/index.js",
+    "./geometries": "./src/geometries/Geometries.js",
+    "./helpers": "./src/helpers/index.js",
+    "./lights": "./src/lights/index.js",
+    "./loaders": "./src/loaders/index.js",
+    "./materials": "./src/materials/Materials.js",
+    "./math": "./src/math/index.js",
+    "./math/interpolants": "./src/math/interpolants/index.js",
+    "./nodes": "./src/nodes/Nodes.js",
+    "./objects": "./src/objects/index.js",
+    "./renderers": "./src/renderers/index.js",
+    "./scenes": "./src/scenes/index.js",
+    "./textures": "./src/textures/index.js",
     "./webgpu": "./src/Three.WebGPU.js"
   },
   "publish": {

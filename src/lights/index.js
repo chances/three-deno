@@ -1,0 +1,12 @@
+export { AmbientLight } from './AmbientLight.js';
+export { DirectionalLight } from './DirectionalLight.js';
+export { DirectionalLightShadow } from './DirectionalLightShadow.js';
+export { HemisphereLight } from './HemisphereLight.js';
+export { Light } from './Light.js';
+export { LightProbe } from './LightProbe.js';
+export { LightShadow } from './LightShadow.js';
+export { PointLight } from './PointLight.js';
+export { PointLightShadow } from './PointLightShadow.js';
+export { RectAreaLight } from './RectAreaLight.js';
+export { SpotLight } from './SpotLight.js';
+export { SpotLightShadow } from './SpotLightShadow.js';

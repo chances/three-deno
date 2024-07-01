@@ -1,0 +1,13 @@
+export { CanvasTexture } from './CanvasTexture.js';
+export { CompressedArrayTexture } from './CompressedArrayTexture.js';
+export { CompressedCubeTexture } from './CompressedCubeTexture.js';
+export { CompressedTexture } from './CompressedTexture.js';
+export { CubeTexture } from './CubeTexture.js';
+export { Data3DTexture } from './Data3DTexture.js';
+export { DataArrayTexture } from './DataArrayTexture.js';
+export { DataTexture } from './DataTexture.js';
+export { DepthTexture } from './DepthTexture.js';
+export { FramebufferTexture } from './FramebufferTexture.js';
+export { Source } from './Source.js';
+export { Texture } from './Texture.js';
+export { VideoTexture } from './VideoTexture.js';
