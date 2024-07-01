@@ -45,6 +45,18 @@ jobs:
       - name: === Unit testing ===
         run: npm run test-unit
 
+  jsr:
+    name: JSR publish dry run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build TypeScript Definitions
+        run: npx tsc || true
+      - name: Dry Run JSR Publish
+        run: npx jsr publish --dry-run
+
   circular:
     name: Circular dependencies testing
     runs-on: ubuntu-latest

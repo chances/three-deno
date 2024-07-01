@@ -103,6 +103,7 @@
     "eslint-plugin-import": "^2.27.5",
     "failonlyreporter": "^1.0.0",
     "jimp": "^0.22.7",
+    "jsr": "^0.12.4",
     "magic-string": "^0.30.0",
     "pixelmatch": "^6.0.0",
     "puppeteer": "^22.0.0",
