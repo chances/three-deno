@@ -13,4 +13,8 @@ jobs:
       id-token: write # The OIDC ID token is used for authentication with JSR.    
     steps:
       - uses: actions/checkout@v4
+      - name: Build TypeScript Definitions
+        run: |
+          npm i
+          npx tsc || true
       - run: npx jsr publish
