@@ -3,7 +3,7 @@
  * Copyright 2010-2024 Three.js Authors
  * SPDX-License-Identifier: MIT
  */
-const REVISION = '166';
+const REVISION = '167dev';
 
 const MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
 const TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
@@ -28904,6 +28904,7 @@ class ObjectLoader extends Loader {
 		const skeletons = this.parseSkeletons( json.skeletons, object );
 
 		this.bindSkeletons( object, skeletons );
+		this.bindLightTargets( object );
 
 		return object;
 
@@ -52636,7 +52637,7 @@ class GaussianBlurNode extends TempNode {
 
 }
 
-const gaussianBlur = ( node, directionNode, sigma ) => nodeObject( new GaussianBlurNode( nodeObject( node ), directionNode, sigma ) );
+const gaussianBlur = ( node, directionNode, sigma ) => nodeObject( new GaussianBlurNode( nodeObject( node ).toTexture(), directionNode, sigma ) );
 
 addNodeElement( 'gaussianBlur', gaussianBlur );
 
@@ -52727,21 +52728,13 @@ class AfterImageNode extends TempNode {
 		const textureNode = this.textureNode;
 		const textureNodeOld = this.textureNodeOld;
 
-		if ( textureNode.isTextureNode !== true ) {
-
-			console.error( 'AfterImageNode requires a TextureNode.' );
-
-			return vec4();
-
-		}
-
 		//
 
 		const uvNode = textureNode.uvNode || uv();
 
 		textureNodeOld.uvNode = uvNode;
 
-		const sampleTexture = ( uv ) => textureNode.cache().context( { getUV: () => uv, forceUVContext: true } );
+		const sampleTexture = ( uv ) => textureNode.uv( uv );
 
 		const when_gt = tslFn( ( [ x_immutable, y_immutable ] ) => {
 
@@ -52782,11 +52775,11 @@ class AfterImageNode extends TempNode {
 
 }
 
-const afterImage = ( node, damp ) => nodeObject( new AfterImageNode( nodeObject( node ), damp ) );
+const afterImage = ( node, damp ) => nodeObject( new AfterImageNode( nodeObject( node ).toTexture(), damp ) );
 
 addNodeElement( 'afterImage', afterImage );
 
-const quadMesh$2 = new QuadMesh();
+const quadMesh$1 = new QuadMesh();
 
 class AnamorphicNode extends TempNode {
 
@@ -52841,7 +52834,7 @@ class AnamorphicNode extends TempNode {
 		const currentRenderTarget = renderer.getRenderTarget();
 		const currentTexture = textureNode.value;
 
-		quadMesh$2.material = this._material;
+		quadMesh$1.material = this._material;
 
 		this.setSize( map.image.width, map.image.height );
 
@@ -52849,7 +52842,7 @@ class AnamorphicNode extends TempNode {
 
 		renderer.setRenderTarget( this._renderTarget );
 
-		quadMesh$2.render( renderer );
+		quadMesh$1.render( renderer );
 
 		// restore
 
@@ -52861,17 +52854,6 @@ class AnamorphicNode extends TempNode {
 	setup( builder ) {
 
 		const textureNode = this.textureNode;
-
-		if ( textureNode.isTextureNode !== true ) {
-
-			console.error( 'AnamorphNode requires a TextureNode.' );
-
-			return vec4();
-
-		}
-
-		//
-
 		const uvNode = textureNode.uvNode || uv();
 
 		const sampleTexture = ( uv ) => textureNode.uv( uv );
@@ -52949,7 +52931,7 @@ class SobelOperatorNode extends TempNode {
 
 		const uvNode = textureNode.uvNode || uv();
 
-		const sampleTexture = ( uv ) => this.textureNode.cache().context( { getUV: () => uv, forceUVContext: true } );
+		const sampleTexture = ( uv ) => textureNode.uv( uv );
 
 		const sobel = tslFn( () => {
 
@@ -53027,7 +53009,7 @@ class SobelOperatorNode extends TempNode {
 
 }
 
-const sobel = ( node ) => nodeObject( new SobelOperatorNode( nodeObject( node ) ) );
+const sobel = ( node ) => nodeObject( new SobelOperatorNode( nodeObject( node ).toTexture() ) );
 
 addNodeElement( 'sobel', sobel );
 
@@ -53138,79 +53120,38 @@ class DepthOfFieldNode extends TempNode {
 
 }
 
-const dof = ( node, viewZNode, focus = 1, aperture = 0.025, maxblur = 1 ) => nodeObject( new DepthOfFieldNode( nodeObject( node ), nodeObject( viewZNode ), nodeObject( focus ), nodeObject( aperture ), nodeObject( maxblur ) ) );
+const dof = ( node, viewZNode, focus = 1, aperture = 0.025, maxblur = 1 ) => nodeObject( new DepthOfFieldNode( nodeObject( node ).toTexture(), nodeObject( viewZNode ), nodeObject( focus ), nodeObject( aperture ), nodeObject( maxblur ) ) );
 
 addNodeElement( 'dof', dof );
 
-const quadMesh$1 = new QuadMesh();
-
 class DotScreenNode extends TempNode {
 
-	constructor( colorNode, center = new Vector2( 0.5, 0.5 ), angle = 1.57, scale = 1 ) {
+	constructor( inputNode, center = new Vector2( 0.5, 0.5 ), angle = 1.57, scale = 1 ) {
 
 		super( 'vec4' );
 
-		this.colorNode = colorNode;
+		this.inputNode = inputNode;
 		this.center = uniform( center );
 		this.angle = uniform( angle );
 		this.scale = uniform( scale );
 
-		this._renderTarget = new RenderTarget();
-		this._renderTarget.texture.name = 'dotScreen';
-
 		this._size = uniform( new Vector2() );
-
-		this._textureNode = texturePass( this, this._renderTarget.texture );
 
 		this.updateBeforeType = NodeUpdateType.RENDER;
 
 	}
 
-	getTextureNode() {
+	updateBefore() {
 
-		return this._textureNode;
+		const map = this.inputNode.value;
 
-	}
-
-	setSize( width, height ) {
-
-		this._size.value.set( width, height );
-		this._renderTarget.setSize( width, height );
+		this._size.value.set( map.image.width, map.image.height );
 
 	}
 
-	updateBefore( frame ) {
+	setup() {
 
-		const { renderer } = frame;
-
-		const colorNode = this.colorNode;
-		const map = colorNode.value;
-
-		this._renderTarget.texture.type = map.type;
-
-		const currentRenderTarget = renderer.getRenderTarget();
-		const currentTexture = colorNode.value;
-
-		quadMesh$1.material = this._material;
-
-		this.setSize( map.image.width, map.image.height );
-
-		// render
-
-		renderer.setRenderTarget( this._renderTarget );
-
-		quadMesh$1.render( renderer );
-
-		// restore
-
-		renderer.setRenderTarget( currentRenderTarget );
-		colorNode.value = currentTexture;
-
-	}
-
-	setup( builder ) {
-
-		const colorNode = this.colorNode;
+		const inputNode = this.inputNode;
 
 		const pattern = tslFn( () => {
 
@@ -53226,7 +53167,7 @@ class DotScreenNode extends TempNode {
 
 		const dotScreen = tslFn( () => {
 
-			const color = colorNode;
+			const color = inputNode;
 
 			const average = add( color.r, color.g, color.b ).div( 3 );
 
@@ -53234,19 +53175,9 @@ class DotScreenNode extends TempNode {
 
 		} );
 
-		//
+		const outputNode = dotScreen();
 
-		const material = this._material || ( this._material = builder.createNodeMaterial() );
-		material.fragmentNode = dotScreen();
-
-		//
-
-		const properties = builder.getNodeProperties( this );
-		properties.textureNode = colorNode;
-
-		//
-
-		return this._textureNode;
+		return outputNode;
 
 	}
 
@@ -53274,7 +53205,7 @@ class RGBShiftNode extends TempNode {
 
 		const uvNode = textureNode.uvNode || uv();
 
-		const sampleTexture = ( uv ) => this.textureNode.uv( uv );
+		const sampleTexture = ( uv ) => textureNode.uv( uv );
 
 		const rgbShift = tslFn( () => {
 
