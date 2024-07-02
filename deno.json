@@ -1,6 +1,6 @@
 {
   "name": "@3d/three",
-  "version": "0.167.0-dev.deno.0",
+  "version": "0.167.0-dev.deno.1",
   "description": "JavaScript 3D library",
   "imports": {
     "three": "./src/Three.js"
@@ -24,6 +24,7 @@
     "./nodes": "./src/nodes/Nodes.js",
     "./objects": "./src/objects/index.js",
     "./renderers": "./src/renderers/index.js",
+    "./renderers/webgpu": "./src/renderers/webgpu/index.js",
     "./scenes": "./src/scenes/index.js",
     "./textures": "./src/textures/index.js",
     "./webgpu": "./src/Three.WebGPU.js"
